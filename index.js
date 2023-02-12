@@ -49,13 +49,15 @@ const init = () => {
 };
 init();
 
-const newConnection = (from) => {
+const checkConnections = () => {
   for (let i = 0; i < grid.length; i++) {
     if (grid[i].isEmpty()) continue;
+    for (let j = 0; j < grid.length; j++) {
+      if (grid[j].isEmpty()) continue;
 
-    if (grid[i].item.outputY == from.y && grid[i].item.outputX == from.x) {
-      console.log(from.item);
-      from.item.addOutput(grid[i].item);
+      if (grid[j].item.outputY == grid[i].y && grid[j].item.outputX == grid[i].x) {
+        grid[i].item.addOutput(grid[j].item);
+      }
     }
   }
 };
@@ -78,7 +80,7 @@ const handleClick = (e) => {
 
       grid[i].addItem(newItem);
       grid[i].calcOutput();
-      newConnection(grid[i]);
+      checkConnections();
     }
   }
 };
