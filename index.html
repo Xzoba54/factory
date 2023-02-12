@@ -22,33 +22,55 @@
         border: 1px solid rgb(179, 187, 189);
       }
       .container {
+        margin-top: 10px;
         display: flex;
-        color: white;
-        gap: 20px;
+        color: rgb(49, 48, 48);
       }
       .item {
         cursor: pointer;
+        border: 2px solid rgb(53, 50, 50);
       }
       .active {
         font-weight: bold;
         color: rgb(218, 214, 214);
         font-size: 18px;
+        background-color: rgb(53, 50, 50);
+      }
+      .inventory {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        display: grid;
+        grid-template-columns: repeat(3, 50px);
+        grid-template-rows: repeat(3, 50px);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: black;
+      }
+      .slot {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        border: 1px solid white;
       }
     </style>
   </head>
   <body>
     <canvas></canvas>
-    <div class="container">
-      <div class="item active">
-        <p>Miner</p>
-      </div>
-      <div class="item">
-        <p>Belt</p>
-      </div>
-      <div class="item">
-        <p>Chest</p>
-      </div>
+    <div class="container"></div>
+    <div class="inventory" style="display: none">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="slot"></div>
     </div>
+    <script defer src="./toolbar.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>

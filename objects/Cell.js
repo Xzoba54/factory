@@ -8,11 +8,33 @@ export default class Cell {
     this.size = size;
     this.color = color;
     this.item = null;
+    this.image = new Image();
+    this.resourceImage = new Image();
+    this.resource = null;
     this.calcOutput();
+    this.randomResource();
+    this.setImage();
+    this.setResourceImage();
+  }
+  randomResource() {
+    const random = Math.floor(Math.random() * 2);
+
+    if (random == 0) this.resource = null;
+    else if (random == 1) this.resource = "iron";
+  }
+  setResourceImage() {
+    this.resourceImage.src = "../textures/ironResource.png";
+  }
+  setImage() {
+    this.image.src = "../textures/dirt.png";
   }
   draw() {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x * this.size, this.y * this.size, this.size, this.size);
+    ctx.drawImage(this.image, this.x * this.size, this.y * this.size);
+
+    if (this.resource == "iron") {
+      ctx.drawImage(this.resourceImage, this.x * this.size, this.y * this.size);
+    }
+
     if (this.item) {
       this.item.draw();
     }
@@ -40,5 +62,9 @@ export default class Cell {
   isEmpty() {
     if (this.item) return false;
     else return true;
+  }
+  isResource() {
+    if (this.resource) return true;
+    else return false;
   }
 }

@@ -31,11 +31,12 @@ export default class Miner {
   }
   async mine() {
     const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
-    await delay(1);
 
     if (!this.isFull()) {
       this.count++;
     }
+
+    await delay(1);
 
     requestAnimationFrame(this.mine.bind(this));
   }

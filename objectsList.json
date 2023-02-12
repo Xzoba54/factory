@@ -1,0 +1,14 @@
+[
+  {
+    "name": "miner",
+    "img": "minerBottom.png"
+  },
+  {
+    "name": "belt",
+    "img": "beltRight.png"
+  },
+  {
+    "name": "chest",
+    "img": "chest.png"
+  }
+]
