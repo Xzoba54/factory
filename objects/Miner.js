@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 export default class Miner {
-  constructor(name, x, y, size, direction) {
+  constructor(name, x, y, size, direction, resource) {
     this.name = name;
     this.x = x;
     this.y = y;
@@ -11,6 +11,7 @@ export default class Miner {
     this.count = 0;
     this.capacity = 100;
     this.output = null;
+    this.resource = resource;
     this.image = new Image();
     this.setImage();
     this.mine();
@@ -33,10 +34,11 @@ export default class Miner {
     const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
 
     if (!this.isFull()) {
+      console.log(this);
       this.count++;
     }
 
-    await delay(1);
+    await delay(0.05);
 
     requestAnimationFrame(this.mine.bind(this));
   }

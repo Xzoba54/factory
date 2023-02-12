@@ -71,16 +71,23 @@ const handleClick = (e) => {
   const y = Math.floor((e.clientY - canvas.offsetTop) / cellSize);
 
   for (let i = 0; i < grid.length; i++) {
-    if (grid[i].item?.name == "chest") {
-      if (!isInventoryOpen) {
-        inventory.style = "display: grid";
-        isInventoryOpen = true;
-      } else {
-        inventory.style = "display: none";
-        isInventoryOpen = false;
-      }
+    // if (grid[i].item?.name == "chest") {
+    //   if (!isInventoryOpen) {
+    //     console.log(grid[i].item.count);
+    //     inventory.style = "display: grid";
+    //     isInventoryOpen = true;
+    //   } else {
+    //     inventory.style = "display: none";
+    //     isInventoryOpen = false;
+    //   }
 
-      continue;
+    //   continue;
+    // }
+    // if (grid[i].name == "chest") {
+    //   console.log(grid[i].item.slots);
+    // }
+    if (grid[i].x == x && grid[i].y && grid[i].item && grid[i].item.name == "chest") {
+      console.log(grid[i].item.slots);
     }
     if (!grid[i].isEmpty()) continue;
 
@@ -91,7 +98,7 @@ const handleClick = (e) => {
       if (!selected) return;
 
       let newItem = null;
-      if (selected == "miner" && grid[i].isResource()) newItem = new Miner("miner", x, y, cellSize, direction);
+      if (selected == "miner" && grid[i].isResource()) newItem = new Miner("miner", x, y, cellSize, direction, grid[i].resource);
       else if (selected == "belt") newItem = new Belt("belt", x, y, cellSize, direction);
       else if (selected == "chest") newItem = new Chest("chest", x, y, cellSize, direction);
 

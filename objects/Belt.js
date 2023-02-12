@@ -28,7 +28,7 @@ export default class Belt {
   async start() {
     if (this.output) {
       const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
-      await delay(1);
+      await delay(0.05);
 
       if (!this.isFull()) {
         if (this.output.count > 0) {

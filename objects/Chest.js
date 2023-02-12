@@ -11,6 +11,44 @@ export default class Chest {
     this.count = 0;
     this.capacity = 100;
     this.output = null;
+    this.slots = [
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+      {
+        type: null,
+        count: 0,
+      },
+    ];
     this.image = new Image();
     this.setImage();
     this.start();
@@ -26,21 +64,26 @@ export default class Chest {
     ctx.fillText(this.count, this.x * this.size, this.y * this.size + 22);
   }
   async start() {
-    const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
-    await delay(1);
+    if (this.output) {
+      const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
+      await delay(0.05);
 
-    if (!this.isFull()) {
       if (this.output.count > 0) {
-        this.count++;
-        this.output.count--;
+        for (let i = 0; i < this.slots.length; i++) {
+          if (this.slots[i].count < this.capacity) {
+            this.slots[i].count++;
+            this.output.count--;
+            break;
+          }
+        }
       }
     }
 
     requestAnimationFrame(this.start.bind(this));
   }
   isFull() {
-    if (this.count < this.capacity) return false;
-    else return true;
+    // if (this.count < this.capacity) return false;
+    // else return true;
   }
   addOutput(output) {
     this.output = output;
