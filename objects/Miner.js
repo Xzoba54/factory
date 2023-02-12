@@ -16,28 +16,27 @@ export default class Miner {
     this.mine();
   }
   setImage() {
-    if (this.direction === "right") this.image.src = "../textures/minerBottom.png";
-    else if (this.direction === "bottom") this.image.src = "../textures/minerBottom.png";
+    this.image.src = `../textures/${this.name}${this.direction.charAt(0).toUpperCase() + this.direction.slice(1, this.direction.length)}.png`;
   }
   draw() {
     ctx.drawImage(this.image, this.x * this.size, this.y * this.size);
+
     ctx.fillStyle = "orange";
     ctx.font = "30px Arial";
     ctx.fillText(this.count, this.x * this.size, this.y * this.size + 22);
   }
-  mine() {
-    setInterval(() => {
-      if (this.count < this.capacity) this.count++;
-
-      if (this.output) {
-        if (this.output.count < this.output.capacity) {
-          this.count--;
-          this.output.count++;
-        }
-      }
-    }, 1000);
+  isFull() {
+    if (this.count < this.capacity) return false;
+    else return true;
   }
-  addOutput(output) {
-    this.output = output;
+  async mine() {
+    const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
+    await delay(1);
+
+    if (!this.isFull()) {
+      this.count++;
+    }
+
+    requestAnimationFrame(this.mine.bind(this));
   }
 }

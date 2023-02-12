@@ -12,12 +12,11 @@ canvas.height = 900;
 let grid = [];
 const gridSize = 10;
 const cellSize = 90;
+
 let itemSelected = {
   selected: "Miner",
-  direction: "right",
+  direction: "bottom",
 };
-
-const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
 
 const initGrid = () => {
   for (let i = 0; i < gridSize; i++) {
@@ -38,59 +37,8 @@ const drawGrid = () => {
   }
 };
 
-// const pass = async () => {
-//   for (let i = 0; i < grid.length; i++) {
-//     if (grid[i].isEmpty()) continue;
-//     const direction = grid[i].item.direction;
-
-//     for (let j = 0; j < grid.length; j++) {
-//       if (grid[j].isEmpty()) continue;
-//       let x = 0;
-//       let y = 0;
-//       if (direction == "right") x = -1;
-//       else if (direction == "bottom") y = -1;
-//       else if (direction == "left") x = 1;
-//       else if (direction == "up") y = 1;
-
-//       if ((grid[i].x == grid[j].x + x && grid[i].y == grid[j].y + y && grid[j].item.name == "belt") || grid[j].item.name == "chest") {
-//         if (grid[j].item.isFull()) continue;
-//         if (grid[i].item.count <= 0) continue;
-
-//         await delay(1);
-//         grid[i].item.count--;
-//         grid[j].item.count++;
-//       }
-//     }
-//   }
-// };
-
-// const pass = async () => {
-//   for (let i = 0; i < grid.length; i++) {
-//     if (!grid[i].item) continue;
-//     if (grid[i].item.count <= 0) continue;
-
-//     for (let j = 0; j < grid.length; j++) {
-//       if (!grid[j].item) continue;
-//       // if (grid[j].item.name != "belt") continue;
-
-//       if (grid[i].x == grid[j].x - 1 && grid[i].y == grid[j].y) {
-//         if (grid[j].item.count >= grid[j].item.capacity) continue;
-
-//         await delay(0.5);
-//         grid[i].item.count--;
-//         grid[j].item.count++;
-//       }
-//     }
-//   }
-// };
-
-// setInterval(() => {
-//   pass();
-// }, 1000);
-
 const gameLoop = () => {
   drawGrid();
-  // pass();
 
   requestAnimationFrame(gameLoop);
 };
@@ -101,23 +49,13 @@ const init = () => {
 };
 init();
 
-const scanForOutput = (from) => {
+const newConnection = (from) => {
   for (let i = 0; i < grid.length; i++) {
     if (grid[i].isEmpty()) continue;
 
-    let direction = from.item.direction;
-
-    let x = 0;
-    let y = 0;
-    if (direction == "right") x = 1;
-    else if (direction == "bottom") y = 1;
-    else if (direction == "left") x = -1;
-    else if (direction == "up") y = -1;
-
-    if (from.x == grid[i].x + x && from.y == grid[i].y + y) {
-      console.log("from");
-      console.log(grid[i]);
-      grid[i].item.addOutput(from.item);
+    if (grid[i].item.outputY == from.y && grid[i].item.outputX == from.x) {
+      console.log(from.item);
+      from.item.addOutput(grid[i].item);
     }
   }
 };
@@ -139,7 +77,8 @@ const handleClick = (e) => {
       else if (selected == "Chest") newItem = new Chest("chest", x, y, cellSize, direction);
 
       grid[i].addItem(newItem);
-      scanForOutput(grid[i]);
+      grid[i].calcOutput();
+      newConnection(grid[i]);
     }
   }
 };

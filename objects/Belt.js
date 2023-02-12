@@ -16,26 +16,29 @@ export default class Belt {
     this.start();
   }
   setImage() {
-    if (this.direction === "right") this.image.src = "../textures/beltRight.png";
-    else if (this.direction === "bottom") this.image.src = "../textures/beltBottom.png";
+    this.image.src = `../textures/${this.name}${this.direction.charAt(0).toUpperCase() + this.direction.slice(1, this.direction.length)}.png`;
   }
   draw() {
     ctx.drawImage(this.image, this.x * this.size, this.y * this.size);
+
     ctx.fillStyle = "orange";
     ctx.font = "30px Arial";
     ctx.fillText(this.count, this.x * this.size, this.y * this.size + 22);
   }
-  start() {
-    setInterval(() => {
-      if (this.output) {
-        if (this.count > 0) {
-          if (this.output.count < this.output.capacity) {
-            this.count--;
-            this.output.count++;
-          }
+  async start() {
+    if (this.output) {
+      const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
+      await delay(1);
+
+      if (!this.isFull()) {
+        if (this.output.count > 0) {
+          this.count++;
+          this.output.count--;
         }
       }
-    }, 1000);
+    }
+
+    requestAnimationFrame(this.start.bind(this));
   }
   isFull() {
     if (this.count < this.capacity) return false;
